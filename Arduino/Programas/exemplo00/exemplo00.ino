@@ -22,10 +22,11 @@
    
    //Dados que seram transportados pela serial
   String tipoDado = "$STS";
-  long distanciaFrente = 0;
-  long distanciaEsq = 0;
-  long distanciaDir = 0;
+  int distanciaFrente = 0;
+  int distanciaEsq = 0;
+  int distanciaDir = 0;
   String movimentacao = "parado"; //status da movimentacao do carro
+  String stsLed = "off"; //status do led
   
   String separador = ",";
   int velocidade = 200; //varia de 0 a 255
@@ -90,6 +91,16 @@
               movimentacao = "parado";
            break;
            
+         case 'i': // liga led
+             digitalWrite(led,HIGH);
+             stsLed = "on";
+           break;
+         
+         case 'o': // desliga led
+             digitalWrite(led,LOW);
+             stsLed = "off";
+           break;
+           
          default:
            break;
      }
@@ -105,17 +116,20 @@
   void enviaDadosSerial(){
     Serial.print(tipoDado);
     Serial.print(separador);
-    Serial.print("Frente: ");
+    //Serial.print("Frente: ");
     Serial.print(distanciaFrente);
     Serial.print(separador);
-    Serial.print("Esquerda: ");
+    //Serial.print("Esquerda: ");
     Serial.print(distanciaEsq);
     Serial.print(separador);
-    Serial.print("Direita: ");
+    //Serial.print("Direita: ");
     Serial.print(distanciaDir);
     Serial.print(separador);
-    Serial.print("Movimentacao: ");
+    //Serial.print("Movimentacao: ");
     Serial.print(movimentacao);
+    Serial.print(separador);
+    //Serial.print("Led: ");
+    Serial.print(stsLed);
     Serial.println();
   }
   
