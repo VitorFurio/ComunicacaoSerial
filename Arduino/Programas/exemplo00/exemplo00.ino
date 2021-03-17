@@ -116,7 +116,7 @@
   void enviaDadosSerial(){
     Serial.print(tipoDado);
     Serial.print(separador);
-    //Serial.print("Frente: ");
+   // Serial.print("Frente: ");
     Serial.print(distanciaFrente);
     Serial.print(separador);
     //Serial.print("Esquerda: ");
@@ -128,7 +128,7 @@
     //Serial.print("Movimentacao: ");
     Serial.print(movimentacao);
     Serial.print(separador);
-    //Serial.print("Led: ");
+   // Serial.print("Led: ");
     Serial.print(stsLed);
     Serial.println();
   }
