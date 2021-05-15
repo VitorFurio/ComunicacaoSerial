@@ -15,15 +15,15 @@ public class SerialRxTx implements SerialPortEventListener {
 	SerialPort serialPort = null;
 	
 	private Protocolo protocolo = new Protocolo(); // Objeto de gestao de protocolo
-	private String appName; // Nome da aplicação
+	private String appName; // Nome da aplicaï¿½ï¿½o
 	
 	private BufferedReader input; // Objeto para leitura na serial
 	private OutputStream output; // Objeto para a escrita na serial
 	
-	private static final int TIME_OUT = 1000; //tempo de espera para comunicação serial
-	private static int DATA_RATE = 9600; //define a velocidade da comunicação serial
+	private static final int TIME_OUT = 1000; //tempo de espera para comunicaï¿½ï¿½o serial
+	private static int DATA_RATE = 9600; //define a velocidade da comunicaï¿½ï¿½o serial
 	
-	private String serialPortName = "COM4";
+	private String serialPortName = "/dev/ttyUSB0";
 	
 	public SerialRxTx() {
 		// TODO Auto-generated constructor stub
@@ -94,7 +94,7 @@ public class SerialRxTx implements SerialPortEventListener {
 	
 	
 	//Metodo que lida com a chagada de dados pela serial ao computador.
-	//Sempre que chegar algo na serial o metodo é disparado.
+	//Sempre que chegar algo na serial o metodo ï¿½ disparado.
 	@Override
 	public void serialEvent(SerialPortEvent spe) {
 		try {
@@ -107,7 +107,7 @@ public class SerialRxTx implements SerialPortEventListener {
 					}
 					if(input.ready()) {
 						protocolo.setLeituraComando(input.readLine()); // le ate uma quebra de linha
-						System.out.println("Chegou: " + protocolo.getLeituraComando());
+						//System.out.println("Chegou: " + protocolo.getLeituraComando());
 					}
 					
 					break;

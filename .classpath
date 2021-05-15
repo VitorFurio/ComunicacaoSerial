@@ -6,10 +6,6 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/vitor furio/Desktop/UFSC/Iniciação Cientifica/Java - Programs/ComunicacaoSerial/RXTXcomm.jar">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="lib" path="/usr/share/java/RXTXcomm.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

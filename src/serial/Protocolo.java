@@ -3,11 +3,12 @@ package serial;
 public class Protocolo {
 
 	private String tipoDado;
-	private String tempo;
-	private String distancia;
+	private int tempo;
+	private int distancia;
 	private String luminosidade;
 	
 	private String leituraComando;
+	private String separador = ",";
 	
 	public Protocolo() {
 		// TODO Auto-generated constructor stub
@@ -15,15 +16,21 @@ public class Protocolo {
 
 	private void interpretaComando() {
 		//$STS,s1200,2,100
-		String aux[] = leituraComando.split(",");
+		String aux[] = leituraComando.split(separador);
 		if(aux.length == 4) {
-			aux[0]= tipoDado;
-			aux[1]= tempo;
-			aux[2]= distancia;
-			aux[3]= luminosidade;
+			tipoDado 	 = 	aux[0];
+			tempo 		 = 	Integer.parseInt(aux[1]);
+			distancia 	 = 	Integer.parseInt(aux[2]);
+			luminosidade = 	aux[3];
 		}
+		System.out.print("Dados: ");
+		System.out.print("TipoDado("+tipoDado+"), ");
+		System.out.print("Tempo("+tempo+"), ");
+		System.out.print("Distancia("+distancia+"), ");
+		System.out.print("Led("+luminosidade+"), ");
+		System.out.println();
 	}
-	
+
 	public String getTipoDado() {
 		return tipoDado;
 	}
@@ -32,19 +39,19 @@ public class Protocolo {
 		this.tipoDado = tipoDado;
 	}
 
-	public String getTempo() {
+	public int getTempo() {
 		return tempo;
 	}
 
-	public void setTempo(String tempo) {
+	public void setTempo(int tempo) {
 		this.tempo = tempo;
 	}
 
-	public String getDistancia() {
+	public int getDistancia() {
 		return distancia;
 	}
 
-	public void setDistancia(String distancia) {
+	public void setDistancia(int distancia) {
 		this.distancia = distancia;
 	}
 
