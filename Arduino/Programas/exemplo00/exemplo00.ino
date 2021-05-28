@@ -1,22 +1,43 @@
    #include<Ultrasonic.h>
    
    #define led 13
-   #define trig01 8
-   #define echo01 7
    
-   Ultrasonic sensor01(trig01,echo01);
+   //sensores
+   #define trigFrente 7
+   #define echoFrente 8
+   #define trigEsq 3
+   #define echoEsq 4
+   #define trigDir 11
+   #define echoDir 12
+
+   //motores
+   #define motorEsqFrente 6
+   #define motorEsqTras 5
+   #define motorDirFrente 10
+   #define motorDirTras 9
+   
+   Ultrasonic sensorFrente(trigFrente,echoFrente);
+   Ultrasonic sensorEsq(trigEsq,echoEsq);
+   Ultrasonic sensorDir(trigDir,echoDir);
    
    //Dados que seram transportados pela serial
   String tipoDado = "$STS";
-  int tempo = 0;
-  long distancia = 0;
-  String luminosidade = "off";
+  long distanciaFrente = 0;
+  long distanciaEsq = 0;
+  long distanciaDir = 0;
+  String movimentacao = "parado"; //status da movimentacao do carro
   
   String separador = ",";
-
+  int velocidade = 200; //varia de 0 a 255
+  
   void setup() {
     Serial.begin(9600);
+    pinMode(motorEsqFrente,OUTPUT);
+    pinMode(motorEsqTras,OUTPUT);
+    pinMode(motorDirFrente,OUTPUT);
+    pinMode(motorDirTras,OUTPUT);
     pinMode(led,OUTPUT);
+    
     digitalWrite(led,LOW);
   }
   
@@ -29,14 +50,44 @@
   void serialEvent() {
     while(Serial.available()>0){
      switch (Serial.read()){
-        case 'a': // liga led
-             digitalWrite(led,HIGH);
-             luminosidade = "on";
+        case 'w': //ir para frente
+             digitalWrite(motorEsqTras,LOW);
+             digitalWrite(motorDirTras,LOW);
+             analogWrite(motorEsqFrente,velocidade);
+             analogWrite(motorDirFrente,velocidade);
+             movimentacao = "indoParaFrente";
            break;
   
-         case 'b':// desliga led
-             digitalWrite(led,LOW);
-             luminosidade = "off";
+         case 's':// ir para tras
+             digitalWrite(motorEsqFrente,LOW);
+             digitalWrite(motorDirFrente,LOW);
+             analogWrite(motorEsqTras,velocidade);
+             analogWrite(motorDirTras,velocidade);
+             movimentacao = "indoParaTras";
+           break;
+
+         case 'a':// gira para a esquerda
+             digitalWrite(motorEsqFrente,LOW);
+             digitalWrite(motorDirTras,LOW);
+             analogWrite(motorEsqTras,velocidade);
+             analogWrite(motorDirFrente,velocidade);
+             movimentacao = "girandoParaEsquerda";
+           break;
+
+         case 'd':// gira para a direita
+             digitalWrite(motorEsqTras,LOW);
+             digitalWrite(motorDirFrente,LOW);
+             analogWrite(motorEsqFrente,velocidade);
+             analogWrite(motorDirTras,velocidade);
+             movimentacao = "girandoParaDireira";
+           break;
+
+         case 'e'://para o carro
+             digitalWrite(motorEsqFrente,LOW);
+             digitalWrite(motorDirFrente,LOW);
+             digitalWrite(motorEsqTras,LOW);
+             digitalWrite(motorDirTras,LOW);
+              movimentacao = "parado";
            break;
            
          default:
@@ -46,18 +97,25 @@
   }
   
   void atualizaDados(){
-   //  tempo = millis();
-     distancia = sensor01.Ranging(CM);
+     distanciaFrente = sensorFrente.Ranging(CM);
+     distanciaEsq = sensorEsq.Ranging(CM);
+     distanciaDir = sensorDir.Ranging(CM);
   }
 
   void enviaDadosSerial(){
     Serial.print(tipoDado);
     Serial.print(separador);
-    Serial.print(tempo);
+    Serial.print("Frente: ");
+    Serial.print(distanciaFrente);
     Serial.print(separador);
-    Serial.print(distancia);
+    Serial.print("Esquerda: ");
+    Serial.print(distanciaEsq);
     Serial.print(separador);
-    Serial.print(luminosidade);
+    Serial.print("Direita: ");
+    Serial.print(distanciaDir);
+    Serial.print(separador);
+    Serial.print("Movimentacao: ");
+    Serial.print(movimentacao);
     Serial.println();
   }
   
