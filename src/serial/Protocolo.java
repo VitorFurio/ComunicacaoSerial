@@ -1,5 +1,8 @@
 package serial;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Protocolo {
 	
 	//dados que serao recebidos pela serial
@@ -12,6 +15,7 @@ public class Protocolo {
 	
 	private String leituraComando;
 	private String separador = ",";
+	private List<String> dados = new ArrayList<String>();
 	
 	public Protocolo() {
 		// TODO Auto-generated constructor stub
@@ -19,23 +23,32 @@ public class Protocolo {
 
 	private void interpretaComando() {
 		//$STS,s1200,2,100
-		String aux[] = leituraComando.split(separador);
+		String aux[]= leituraComando.split(separador);
 		if(aux.length == 6) {
+			dados.clear();
 			tipoDado 	 = 	aux[0];
+			dados.add("TipoDado("+tipoDado+")");
+			
 			distanciaFrente = Integer.parseInt(aux[1]);
+			dados.add("distanciaFrente("+distanciaFrente+")");
+			
 			distanciaEsq = Integer.parseInt(aux[2]);
+			dados.add("distanciaEsq("+distanciaEsq+")");
+			
 			distanciaDir = Integer.parseInt(aux[3]);
+			dados.add("distanciaDir("+distanciaDir+")");
+			
 			movimentacao = aux[4]; //status da movimentacao do carro
+			dados.add("movimentacao("+movimentacao+")");
+			
 			stsLed = aux[5]; //status do led
+			dados.add("stsLed("+stsLed+")");
+			
 		}
-		System.out.print("Dados: ");
-		System.out.print("TipoDado("+tipoDado+"), ");
-		System.out.print("distanciaFrente("+distanciaFrente+"), ");
-		System.out.print("distanciaEsq("+distanciaEsq+"), ");
-		System.out.print("distanciaDir("+distanciaDir+"), ");
-		System.out.print("movimentacao("+movimentacao+"), ");
-		System.out.print("stsLed("+stsLed+"), ");
-		System.out.println();
+	}
+
+	public List<String> getDados() {
+		return dados;
 	}
 
 	public String getTipoDado() {

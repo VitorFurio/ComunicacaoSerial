@@ -13,20 +13,26 @@ import gnu.io.SerialPortEventListener;
 public class SerialRxTx implements SerialPortEventListener {
 
 	SerialPort serialPort = null;
+	private String serialPortName;
 	
 	private Protocolo protocolo = new Protocolo(); // Objeto de gestao de protocolo
-	private String appName; // Nome da aplica��o
+	private String appName; // Nome da aplicacao
 	
 	private BufferedReader input; // Objeto para leitura na serial
 	private OutputStream output; // Objeto para a escrita na serial
 	
-	private static final int TIME_OUT = 1000; //tempo de espera para comunica��o serial
-	private static int DATA_RATE = 9600; //define a velocidade da comunica��o serial
+	private static final int TIME_OUT = 1000; //tempo de espera para comunicacao serial
+	private int DATA_RATE; //define a velocidade da comunicacao serial
 	
-	private String serialPortName = "/dev/ttyUSB0";
+	private String dados;
+	private boolean conectado; //conectado: True or false
 	
-	public SerialRxTx() {
-		// TODO Auto-generated constructor stub
+	public SerialRxTx(String serialPortName, int DATA_RATE) {
+		this.serialPortName = serialPortName;
+		this.DATA_RATE = DATA_RATE;
+		//adicionar no construtor:
+			//# o tipo de protocolo
+			//# o nome da aplicacao
 	}
 	
 	public boolean iniciaSerial() {
@@ -70,6 +76,7 @@ public class SerialRxTx implements SerialPortEventListener {
 			e.printStackTrace();
 			status = false;
 		}
+		conectado = status;
 		return status;
 	}
 
@@ -89,6 +96,7 @@ public class SerialRxTx implements SerialPortEventListener {
 		if(serialPort != null) {
 			serialPort.removeEventListener();
 			serialPort.close();
+			conectado = false;
 		}
 	}
 	
@@ -107,6 +115,7 @@ public class SerialRxTx implements SerialPortEventListener {
 					}
 					if(input.ready()) {
 						protocolo.setLeituraComando(input.readLine()); // le ate uma quebra de linha
+						dados = input.readLine();
 						//System.out.println("Chegou: " + protocolo.getLeituraComando());
 					}
 					
@@ -120,6 +129,10 @@ public class SerialRxTx implements SerialPortEventListener {
 		}
 		
 	}
+	
+	public String read() {
+		return dados;
+	}
 
 	public Protocolo getProtocolo() {
 		return protocolo;
@@ -129,11 +142,11 @@ public class SerialRxTx implements SerialPortEventListener {
 		this.protocolo = protocolo;
 	}
 
-	public static int getDATA_RATE() {
+	public int getDATA_RATE() {
 		return DATA_RATE;
 	}
 
-	public static void setDATA_RATE(int dATA_RATE) {
+	public void setDATA_RATE(int dATA_RATE) {
 		DATA_RATE = dATA_RATE;
 	}
 
@@ -145,5 +158,8 @@ public class SerialRxTx implements SerialPortEventListener {
 		this.serialPortName = serialPortName;
 	}
 
-	
+	public boolean isConectado() {
+		return conectado;
+	}
+
 }
