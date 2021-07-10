@@ -1,5 +1,3 @@
-#include <Embedded_Protocol_2.h>
-
 /*   Embedded_Protocol_2 example
 
    Biblioteca que cria crenças e envia crenças ja no formato "literal" --> CrençaExemplo(parametro1, parametro2, ... ,parametroN).
