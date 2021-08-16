@@ -7,4 +7,4 @@ Para utilizá-la é necessário conhecer basicamente 4 funções, são elas:
 
 - endBelief() : fecha a crença em que estamos adicionando parâmetros e adiciona-a ao conjunto de crenças (armazena-a em um buffer), deixando-a pronta para ser enviada.
 
--sendMessage(): envia o conjunto de crenças que criamos através das funções acima. Depois de invocada essa função limpa todas as crenças que estão armazenadas no buffer. 
+- sendMessage(): envia o conjunto de crenças que criamos através das funções acima. Depois de invocada essa função limpa todas as crenças que estão armazenadas no buffer. 
